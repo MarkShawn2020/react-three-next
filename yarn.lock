@@ -1293,6 +1293,11 @@
   resolved "https://registry.yarnpkg.com/@rushstack/eslint-patch/-/eslint-patch-1.5.0.tgz#5143b0da9c536bfe8beddfeb68bb8b5d647cc7a3"
   integrity sha512-EF3948ckf3f5uPgYbQ6GhyA56Dmv8yg0+ir+BroRjwdxyZJsekhZzawOecC2rOTPCz173t7ZcR1HHZu0dZgOCw==
 
+"@studio-freight/lenis@^1.0.24":
+  version "1.0.24"
+  resolved "https://registry.yarnpkg.com/@studio-freight/lenis/-/lenis-1.0.24.tgz#e803c5e93a680c6336999c07b3863076efcd4095"
+  integrity sha512-lOd+vy62k/ekOEU0PLXjHIpobVKBYeBEiy0T3x6MrvgG5ohbP3+iVRZAUAdw94Sv2jk6AgowwJqifB9pC/qc9Q==
+
 "@surma/rollup-plugin-off-main-thread@^2.2.3":
   version "2.2.3"
   resolved "https://registry.yarnpkg.com/@surma/rollup-plugin-off-main-thread/-/rollup-plugin-off-main-thread-2.2.3.tgz#ee34985952ca21558ab0d952f00298ad2190c053"
@@ -1309,6 +1314,10 @@
   integrity sha512-E4KcWTpoLHqwPHLxidpOqQbcrZVgi0rsmmZXUle1jXmJfuIf/UWpczUJ7MZZ5tlxytgJXyp0w4PGkkeLiuIdZw==
   dependencies:
     tslib "^2.4.0"
+
+"@types/@studio-freight/lenis":
+  version "1.0.24"
+  resolved "https://codeload.github.com/studio-freight/lenis/tar.gz/2ae9ba81734aae716a428654822c4da2d528b25c"
 
 "@types/draco3d@^1.4.0":
   version "1.4.5"
