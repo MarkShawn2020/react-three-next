@@ -1,6 +1,8 @@
 import { useFrame, useThree } from '@react-three/fiber'
 import { useEffect, useMemo } from 'react'
 import * as THREE from 'three'
+import {RawShaderMaterial} from "three/src/materials/RawShaderMaterial";
+import {BufferGeometry} from "three";
 
 function getFullscreenTriangle() {
   const geometry = new THREE.BufferGeometry()
@@ -16,20 +18,20 @@ function getFullscreenTriangle() {
 // Basic shader postprocess based on the template https://gist.github.com/RenaudRohlinger/bd5d15316a04d04380e93f10401c40e7
 // USAGE: Simply call usePostprocess hook in your r3f component to apply the shader to the canvas as a postprocess effect
 const usePostProcess = () => {
-  const [{ dpr }, size, gl] = useThree((s) => [s.viewport, s.size, s.gl])
+  const {viewport: {dpr}, size, gl: {outputEncoding: encoding}}= useThree(({viewport, size, gl}) => ({viewport, size, gl}))
 
   const [screenCamera, screenScene, screen, renderTarget] = useMemo(() => {
     let screenScene = new THREE.Scene()
     const screenCamera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1)
-    const screen = new THREE.Mesh(getFullscreenTriangle())
+    const screen = new THREE.Mesh<BufferGeometry, RawShaderMaterial>(getFullscreenTriangle())
     screen.frustumCulled = false
     screenScene.add(screen)
 
-    const renderTarget = new THREE.WebGLRenderTarget(512, 512, { samples: 4, encoding: gl.encoding })
-    renderTarget.depthTexture = new THREE.DepthTexture() // fix depth issues
+    const renderTarget = new THREE.WebGLRenderTarget(512, 512, { samples: 4, encoding })
+    renderTarget.depthTexture = new THREE.DepthTexture(renderTarget.width, renderTarget.height) // fix depth issues
 
     // use ShaderMaterial for linearToOutputTexel
-    screen.material = new THREE.RawShaderMaterial({
+    screen.material= new THREE.RawShaderMaterial({
       uniforms: {
         diffuse: { value: null },
         time: { value: 0 },
@@ -74,11 +76,11 @@ const usePostProcess = () => {
         }
       `,
       glslVersion: THREE.GLSL3,
-    })
+    }) as THREE.RawShaderMaterial
     screen.material.uniforms.diffuse.value = renderTarget.texture
 
     return [screenCamera, screenScene, screen, renderTarget]
-  }, [gl.encoding])
+  }, [encoding])
   useEffect(() => {
     const { width, height } = size
     const { w, h } = {
